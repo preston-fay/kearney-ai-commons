@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ prompt.Title }} | Kearney AI Commons</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Kearney AI Commons</h1>
+            <p class="subtitle">Curated AI Prompts for Enterprise Excellence</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav class="breadcrumb">
+            <a href="{{ url_for('index') }}">&larr; Back to Library</a>
+        </nav>
+
+        <article class="prompt-card prompt-detail">
+            <div class="prompt-header">
+                <h2>{{ prompt.Title }}</h2>
+                <span class="status-badge status-{{ prompt.Status|lower }}">{{ prompt.Status }}</span>
+            </div>
+
+            <div class="prompt-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Use Case:</span>
+                    <span class="meta-value">{{ prompt.UseCase }}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Target Audience:</span>
+                    <span class="meta-value">{{ prompt.TargetAudience }}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Version:</span>
+                    <span class="meta-value">{{ prompt.Version }}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Source File:</span>
+                    <span class="meta-value">{{ prompt.PromptContentFile }}</span>
+                </div>
+            </div>
+
+            <div class="prompt-content-wrapper">
+                <div class="content-header">
+                    <span class="content-label">Prompt Content</span>
+                    <button class="copy-btn" onclick="copyToClipboard('prompt-content-{{ prompt.id }}', this)">
+                        <span class="copy-icon">&#128203;</span> Copy to Clipboard
+                    </button>
+                </div>
+                <pre><code id="prompt-content-{{ prompt.id }}">{{ prompt.PromptContent }}</code></pre>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Kearney AI Commons | Local Development Environment</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

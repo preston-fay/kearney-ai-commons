@@ -1,0 +1,345 @@
+/**
+ * Kearney AI Commons - Stylesheet
+ * Clean, professional styling aligned with enterprise aesthetics.
+ */
+
+/* CSS Variables for Kearney Brand Colors */
+:root {
+    --kearney-blue: #003366;
+    --kearney-blue-dark: #002244;
+    --kearney-gold: #C4A000;
+    --kearney-teal: #008B8B;
+    --neutral-white: #FFFFFF;
+    --neutral-light: #F5F5F5;
+    --neutral-gray: #E0E0E0;
+    --neutral-dark: #333333;
+    --success-green: #28A745;
+    --error-red: #DC3545;
+    --font-primary: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+/* Reset and Base Styles */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-primary);
+    background-color: var(--neutral-light);
+    color: var(--neutral-dark);
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, var(--kearney-blue) 0%, var(--kearney-blue-dark) 100%);
+    color: var(--neutral-white);
+    padding: 40px 0;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0 0 10px 0;
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+header .subtitle {
+    margin: 0;
+    font-size: 1.1rem;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+/* Main Content */
+main {
+    padding: 40px 0;
+    min-height: calc(100vh - 200px);
+}
+
+/* Introduction Section */
+.intro {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 1.1rem;
+    color: #666;
+}
+
+/* Breadcrumb Navigation */
+.breadcrumb {
+    margin-bottom: 30px;
+}
+
+.breadcrumb a {
+    color: var(--kearney-blue);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+/* Prompt Cards */
+.prompt-card {
+    background: var(--neutral-white);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+    overflow: hidden;
+    border: 1px solid var(--neutral-gray);
+}
+
+.prompt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    background: linear-gradient(90deg, var(--neutral-light) 0%, var(--neutral-white) 100%);
+    border-bottom: 1px solid var(--neutral-gray);
+}
+
+.prompt-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--kearney-blue);
+    font-weight: 600;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-published {
+    background-color: var(--success-green);
+    color: var(--neutral-white);
+}
+
+.status-draft {
+    background-color: var(--kearney-gold);
+    color: var(--neutral-dark);
+}
+
+.status-archived {
+    background-color: var(--neutral-gray);
+    color: var(--neutral-dark);
+}
+
+/* Prompt Metadata */
+.prompt-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 15px 25px;
+    background-color: var(--neutral-light);
+    border-bottom: 1px solid var(--neutral-gray);
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.meta-label {
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.meta-value {
+    font-size: 0.9rem;
+    color: var(--neutral-dark);
+    font-weight: 600;
+}
+
+/* Prompt Content Area */
+.prompt-content-wrapper {
+    padding: 0;
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    background-color: var(--neutral-white);
+    border-bottom: 1px solid var(--neutral-gray);
+}
+
+.content-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neutral-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Copy Button */
+.copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background-color: var(--kearney-blue);
+    color: var(--neutral-white);
+    border: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.copy-btn:hover {
+    background-color: var(--kearney-blue-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 51, 102, 0.3);
+}
+
+.copy-btn:active {
+    transform: translateY(0);
+}
+
+.copy-btn.copy-success {
+    background-color: var(--success-green);
+}
+
+.copy-btn.copy-error {
+    background-color: var(--error-red);
+}
+
+.copy-icon {
+    font-size: 1rem;
+}
+
+/* Code Block */
+.prompt-content-wrapper pre {
+    margin: 0;
+    padding: 20px 25px;
+    background-color: #1E1E1E;
+    overflow-x: auto;
+    max-height: 500px;
+}
+
+.prompt-content-wrapper code {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: #D4D4D4;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--neutral-white);
+    border-radius: 8px;
+    border: 2px dashed var(--neutral-gray);
+}
+
+.empty-state p {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* Footer */
+footer {
+    background-color: var(--neutral-dark);
+    color: var(--neutral-gray);
+    padding: 20px 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    .prompt-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .prompt-meta {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .content-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .copy-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* Focus States for Keyboard Navigation */
+a:focus,
+button:focus {
+    outline: 2px solid var(--kearney-teal);
+    outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+    header, footer, .copy-btn {
+        display: none;
+    }
+
+    .prompt-card {
+        box-shadow: none;
+        border: 1px solid #000;
+        page-break-inside: avoid;
+    }
+
+    .prompt-content-wrapper pre {
+        background-color: #fff;
+        color: #000;
+        max-height: none;
+    }
+}

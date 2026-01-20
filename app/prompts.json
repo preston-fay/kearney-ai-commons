@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "Title": "Kearney Design System v2",
+    "PromptContentFile": "prompts/KearneyDesignSystem_v2.txt",
+    "UseCase": "Visual Generation",
+    "TargetAudience": "Power User",
+    "Version": 2.0,
+    "Status": "Published"
+  }
+]
