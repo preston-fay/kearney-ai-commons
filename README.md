@@ -1,30 +1,36 @@
-# Kearney AI Commons - Local Development Environment
+# Kearney AI Skills Library
 
-A self-contained, local-first implementation of the Kearney AI Commons prompt library. This project enables rapid iteration, validation, and testing of enterprise AI prompts without external dependencies.
+A curated library of validated AI prompts and interactive skills for Kearney enterprise workflows.
 
 ## Overview
 
-The AI Commons is a curated library of validated AI prompts designed for Kearney enterprise workflows. This local implementation provides:
+The AI Skills Library provides:
 
-- **Web Interface**: Browse and copy prompts via a clean Flask-based UI
+- **Prompts**: Static, copy-paste prompt templates for common tasks
+- **Skills**: Interactive AI workflows (interviews, generators, analyzers)
+- **Web Interface**: Browse and copy content via a clean Flask-based UI
 - **Validation Suite**: Test prompts against Anthropic and OpenAI APIs
-- **Rapid Iteration**: Develop and refine prompts locally before deployment
 
 ## Project Structure
 
 ```
-kearney-ai-commons-local/
+kearney-ai-skills-library/
 ├── app/
 │   ├── static/
 │   │   ├── script.js      # Clipboard functionality
 │   │   └── style.css      # Kearney-branded styling
 │   ├── templates/
 │   │   ├── index.html     # Main library view
-│   │   └── detail.html    # Individual prompt view
+│   │   └── detail.html    # Individual item view
 │   ├── app.py             # Flask application
-│   └── prompts.json       # Local prompt database
+│   └── prompts.json       # Local prompt/skill database
 ├── prompts/
-│   └── *.txt              # Prompt content files
+│   └── *.txt              # Static prompt content files
+├── skills/
+│   └── */                 # Interactive skill folders
+│       ├── README.md      # Skill documentation
+│       ├── SKILL_*.md     # Platform-specific versions
+│       └── ...
 ├── scripts/
 │   └── validate_prompts.py # Validation suite
 ├── .env.example           # Environment template
@@ -38,8 +44,9 @@ kearney-ai-commons-local/
 ### 1. Set Up Environment
 
 ```bash
-# Navigate to project directory
-cd kearney-ai-commons-local
+# Clone the repository
+git clone https://github.com/preston-fay/kearney-ai-skills-library.git
+cd kearney-ai-skills-library
 
 # Create virtual environment
 python -m venv venv
@@ -73,6 +80,8 @@ python app.py
 
 The application will be available at **http://localhost:5000**
 
+Production deployment: **http://3.142.207.252** (pending DNS: aiskills.kearney.com)
+
 ### 4. Run the Validation Suite
 
 ```bash
@@ -86,27 +95,54 @@ python scripts/validate_prompts.py --dry-run
 python scripts/validate_prompts.py --output my_report.csv
 ```
 
-## Adding New Prompts
+## Content Types
 
-1. **Create the prompt file**: Add a `.txt` file to the `/prompts` directory
-   ```
-   prompts/MyNewPrompt_v1.txt
-   ```
+### Prompts
 
-2. **Register in the database**: Add an entry to `app/prompts.json`
-   ```json
-   {
-     "id": 2,
-     "Title": "My New Prompt",
-     "PromptContentFile": "prompts/MyNewPrompt_v1.txt",
-     "UseCase": "Analysis",
-     "TargetAudience": "Consultant",
-     "Version": 1.0,
-     "Status": "Draft"
-   }
-   ```
+Static prompt templates users copy into their LLM of choice.
 
-3. **Validate**: Run the validation suite to test against AI providers
+**Adding a new prompt:**
+1. Create a `.txt` file in `/prompts`
+2. Add metadata to `app/prompts.json`
+
+```json
+{
+  "id": 2,
+  "Title": "My New Prompt",
+  "Type": "prompt",
+  "PromptContentFile": "prompts/MyNewPrompt_v1.txt",
+  "UseCase": "Analysis",
+  "TargetAudience": "Consultant",
+  "Version": 1.0,
+  "Status": "Draft"
+}
+```
+
+### Skills
+
+Interactive AI workflows with multiple platform versions.
+
+**Adding a new skill:**
+1. Create a folder in `/skills/your-skill-name/`
+2. Add `README.md` documenting the skill
+3. Add platform-specific versions:
+   - `SKILL_claude-code.md` - For Claude Code CLI
+   - `SKILL_generic.md` - For any LLM
+4. Register in `app/prompts.json`
+
+```json
+{
+  "id": 3,
+  "Title": "My New Skill",
+  "Type": "skill",
+  "SkillFolder": "skills/my-new-skill",
+  "Platforms": ["claude-code", "generic"],
+  "UseCase": "Workflow Automation",
+  "TargetAudience": "Developer",
+  "Version": 1.0,
+  "Status": "Draft"
+}
+```
 
 ## Validation Tests
 
@@ -131,16 +167,24 @@ This implementation prioritizes rapid iteration over enterprise deployment. By r
 - Validate prompts against multiple AI providers
 - Build confidence before production rollout
 
-### Data Store
+### Content Categories
 
-The `prompts.json` file serves as a lightweight local database. For production, this would migrate to SharePoint Lists or a proper database.
-
-### Separation of Concerns
-
-- **Content files** (`/prompts/*.txt`): The actual prompt text
+- **Prompts** (`/prompts/*.txt`): Static, copy-paste content
+- **Skills** (`/skills/*/`): Interactive, multi-step workflows
 - **Metadata** (`prompts.json`): Cataloging and organization
 - **Presentation** (`/app`): User interface layer
 - **Validation** (`/scripts`): Testing and quality assurance
+
+### Platform Support
+
+Skills can target specific platforms or be generic:
+
+| Platform | File Pattern | Description |
+|----------|--------------|-------------|
+| Claude Code | `SKILL_claude-code.md` | Uses Claude Code CLI features |
+| Generic | `SKILL_generic.md` | Works with any LLM |
+| ChatGPT | `SKILL_chatgpt.md` | ChatGPT-specific optimizations |
+| Copilot | `SKILL_copilot.md` | GitHub Copilot optimizations |
 
 ## API Requirements
 
@@ -151,18 +195,26 @@ The `prompts.json` file serves as a lightweight local database. For production, 
 
 ## Contributing
 
-1. Create prompts in the `/prompts` directory
+1. Create prompts in `/prompts` or skills in `/skills`
 2. Register them in `prompts.json`
 3. Run validation to ensure quality
 4. Submit for review
 
+## Current Library
+
+### Prompts
+- **Kearney Design System v2** - Visual generation with KDS compliance
+
+### Skills
+- **Setup Workflow** - Interactive interview to generate AI workflow instructions
+
 ## Next Steps
 
 - [ ] Add user authentication
-- [ ] Implement prompt versioning
+- [ ] Implement versioning for prompts and skills
 - [ ] Add search/filter functionality
 - [ ] Build governance workflow
-- [ ] Migrate to SharePoint for production
+- [ ] Add more skills (code review, documentation, analysis)
 
 ## License
 
@@ -170,4 +222,4 @@ Internal Kearney Use Only
 
 ---
 
-*Built for the Kearney AI Commons Initiative*
+*Kearney AI Skills Library*

@@ -2,10 +2,23 @@
   {
     "id": 1,
     "Title": "Kearney Design System v2",
+    "Type": "prompt",
     "PromptContentFile": "prompts/KearneyDesignSystem_v2.txt",
     "UseCase": "Visual Generation",
     "TargetAudience": "Power User",
     "Version": 2.0,
     "Status": "Published"
+  },
+  {
+    "id": 2,
+    "Title": "Setup Workflow",
+    "Type": "skill",
+    "SkillFolder": "skills/setup-workflow",
+    "Platforms": ["claude-code", "generic"],
+    "UseCase": "Workflow Automation",
+    "TargetAudience": "Developer",
+    "Version": 1.0,
+    "Status": "Published",
+    "Description": "Interactive interview that generates customized AI workflow instructions (CLAUDE.md or AI_INSTRUCTIONS.md) for any project."
   }
 ]
