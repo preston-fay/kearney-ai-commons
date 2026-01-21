@@ -10,7 +10,7 @@
     <header>
         <div class="container">
             <h1>Kearney AI Skills Library</h1>
-            <p class="subtitle">Curated Prompts & Interactive Skills for Enterprise Excellence</p>
+            <p class="subtitle">Curated Prompts and Interactive Skills for Enterprise Excellence</p>
             <nav class="header-nav">
                 <a href="{{ url_for('index') }}" class="nav-link">Library</a>
                 <a href="{{ url_for('guide') }}" class="nav-link">How to Use</a>
@@ -20,7 +20,12 @@
 
     <main class="container">
         <nav class="breadcrumb">
-            <a href="{{ url_for('index') }}">&larr; Back to Library</a>
+            <a href="{{ url_for('index') }}">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px; vertical-align: middle; margin-right: 4px;">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back to Library
+            </a>
         </nav>
 
         <article class="prompt-card prompt-detail">
@@ -29,7 +34,7 @@
                     <span class="type-badge type-{{ prompt.Type|default('prompt') }}">{{ prompt.Type|default('prompt')|upper }}</span>
                     <h2>{{ prompt.Title }}</h2>
                 </div>
-                <span class="status-badge status-{{ prompt.Status|lower }}">{{ prompt.Status }}</span>
+                <span class="category-badge">{{ prompt.Category }}</span>
             </div>
 
             <div class="prompt-meta">
@@ -45,16 +50,16 @@
                     <span class="meta-label">Version:</span>
                     <span class="meta-value">{{ prompt.Version }}</span>
                 </div>
-                {% if prompt.Type != 'skill' %}
-                <div class="meta-item">
-                    <span class="meta-label">Source:</span>
-                    <span class="meta-value">{{ prompt.PromptContentFile }}</span>
-                </div>
-                {% endif %}
             </div>
 
+            {% if prompt.WhenToUse %}
+            <div class="item-description">
+                <p><strong>When to use:</strong> {{ prompt.WhenToUse }}</p>
+            </div>
+            {% endif %}
+
             {% if prompt.Description %}
-            <div class="item-description detail-description">
+            <div class="item-description">
                 <p>{{ prompt.Description }}</p>
             </div>
             {% endif %}
@@ -68,9 +73,9 @@
                             onclick="switchTab('{{ platform }}', this)"
                             data-platform="{{ platform }}">
                         {% if platform == 'claude-code' %}
-                        <span class="platform-icon">&#9679;</span> Claude Code
+                        Claude Code
                         {% elif platform == 'generic' %}
-                        <span class="platform-icon">&#9673;</span> Any LLM
+                        Any LLM
                         {% else %}
                         {{ platform|title }}
                         {% endif %}
@@ -84,15 +89,19 @@
                         <div class="content-header">
                             <span class="content-label">
                                 {% if platform == 'claude-code' %}
-                                Claude Code Skill (SKILL.md)
+                                Claude Code Skill
                                 {% elif platform == 'generic' %}
-                                Universal Prompt (Any LLM)
+                                Universal Prompt
                                 {% else %}
                                 {{ platform|title }} Version
                                 {% endif %}
                             </span>
                             <button class="copy-btn" onclick="copyToClipboard('skill-content-{{ platform }}', this)">
-                                <span class="copy-icon">&#128203;</span> Copy to Clipboard
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                                </svg>
+                                Copy to Clipboard
                             </button>
                         </div>
                         <pre><code id="skill-content-{{ platform }}">{{ content }}</code></pre>
@@ -117,7 +126,11 @@
                 <div class="content-header">
                     <span class="content-label">Prompt Content</span>
                     <button class="copy-btn" onclick="copyToClipboard('prompt-content-{{ prompt.id }}', this)">
-                        <span class="copy-icon">&#128203;</span> Copy to Clipboard
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                        </svg>
+                        Copy to Clipboard
                     </button>
                 </div>
                 <pre><code id="prompt-content-{{ prompt.id }}">{{ prompt.PromptContent }}</code></pre>
@@ -128,7 +141,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 Kearney AI Skills Library</p>
+            <p>Kearney AI Skills Library</p>
         </div>
     </footer>
 
