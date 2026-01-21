@@ -85,5 +85,11 @@ def prompt_detail(prompt_id):
     return render_template('detail.html', prompt=item)
 
 
+@app.route('/guide')
+def guide():
+    """Render the how-to-use guide page."""
+    return render_template('guide.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

@@ -3,53 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kearney AI Commons</title>
+    <title>Kearney AI Skills Library</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>Kearney AI Commons</h1>
-            <p class="subtitle">Curated AI Prompts for Enterprise Excellence</p>
+            <h1>Kearney AI Skills Library</h1>
+            <p class="subtitle">Curated Prompts & Interactive Skills for Enterprise Excellence</p>
+            <nav class="header-nav">
+                <a href="{{ url_for('index') }}" class="nav-link active">Library</a>
+                <a href="{{ url_for('guide') }}" class="nav-link">How to Use</a>
+            </nav>
         </div>
     </header>
 
     <main class="container">
-        <section class="intro">
-            <p>Welcome to the AI Commons library. Browse, copy, and utilize validated prompts designed for Kearney workflows.</p>
+        <!-- Filter Bar -->
+        <section class="filter-bar">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Search prompts and skills..." onkeyup="filterItems()">
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">All</button>
+                <button class="filter-btn" data-filter="prompt" onclick="setFilter('prompt', this)">Prompts</button>
+                <button class="filter-btn" data-filter="skill" onclick="setFilter('skill', this)">Skills</button>
+            </div>
         </section>
 
-        <section class="prompts-list">
-            {% for prompt in prompts %}
-            <article class="prompt-card">
+        <section class="prompts-list" id="items-list">
+            {% for item in prompts %}
+            <article class="prompt-card" data-type="{{ item.Type|default('prompt') }}" data-title="{{ item.Title|lower }}" data-usecase="{{ item.UseCase|lower }}">
                 <div class="prompt-header">
-                    <h2>{{ prompt.Title }}</h2>
-                    <span class="status-badge status-{{ prompt.Status|lower }}">{{ prompt.Status }}</span>
+                    <div class="title-row">
+                        <span class="type-badge type-{{ item.Type|default('prompt') }}">{{ item.Type|default('prompt')|upper }}</span>
+                        <h2><a href="{{ url_for('prompt_detail', prompt_id=item.id) }}">{{ item.Title }}</a></h2>
+                    </div>
+                    <span class="status-badge status-{{ item.Status|lower }}">{{ item.Status }}</span>
                 </div>
 
                 <div class="prompt-meta">
                     <div class="meta-item">
                         <span class="meta-label">Use Case:</span>
-                        <span class="meta-value">{{ prompt.UseCase }}</span>
+                        <span class="meta-value">{{ item.UseCase }}</span>
                     </div>
                     <div class="meta-item">
-                        <span class="meta-label">Target Audience:</span>
-                        <span class="meta-value">{{ prompt.TargetAudience }}</span>
+                        <span class="meta-label">Audience:</span>
+                        <span class="meta-value">{{ item.TargetAudience }}</span>
                     </div>
                     <div class="meta-item">
                         <span class="meta-label">Version:</span>
-                        <span class="meta-value">{{ prompt.Version }}</span>
+                        <span class="meta-value">{{ item.Version }}</span>
                     </div>
+                    {% if item.Type == 'skill' and item.Platforms %}
+                    <div class="meta-item">
+                        <span class="meta-label">Platforms:</span>
+                        <span class="meta-value platform-tags">
+                            {% for platform in item.Platforms %}
+                            <span class="platform-tag">{{ platform }}</span>
+                            {% endfor %}
+                        </span>
+                    </div>
+                    {% endif %}
                 </div>
 
-                <div class="prompt-content-wrapper">
-                    <div class="content-header">
-                        <span class="content-label">Prompt Content</span>
-                        <button class="copy-btn" onclick="copyToClipboard('prompt-content-{{ prompt.id }}', this)">
-                            <span class="copy-icon">&#128203;</span> Copy to Clipboard
-                        </button>
-                    </div>
-                    <pre><code id="prompt-content-{{ prompt.id }}">{{ prompt.PromptContent }}</code></pre>
+                {% if item.Description %}
+                <div class="item-description">
+                    <p>{{ item.Description }}</p>
+                </div>
+                {% endif %}
+
+                <div class="card-actions">
+                    <a href="{{ url_for('prompt_detail', prompt_id=item.id) }}" class="view-btn">View Details</a>
+                    <button class="copy-btn" onclick="copyToClipboard('prompt-content-{{ item.id }}', this)">
+                        <span class="copy-icon">&#128203;</span> Quick Copy
+                    </button>
+                </div>
+
+                <!-- Hidden content for quick copy -->
+                <div style="display:none;">
+                    <code id="prompt-content-{{ item.id }}">{{ item.PromptContent }}</code>
                 </div>
             </article>
             {% endfor %}
@@ -57,14 +90,18 @@
 
         {% if not prompts %}
         <section class="empty-state">
-            <p>No prompts available in the library yet.</p>
+            <p>No prompts or skills available in the library yet.</p>
         </section>
         {% endif %}
+
+        <section class="no-results" id="no-results" style="display: none;">
+            <p>No items match your search criteria.</p>
+        </section>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 Kearney AI Commons | Local Development Environment</p>
+            <p>&copy; 2025 Kearney AI Skills Library</p>
         </div>
     </footer>
 

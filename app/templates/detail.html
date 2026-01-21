@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ prompt.Title }} | Kearney AI Commons</title>
+    <title>{{ prompt.Title }} | Kearney AI Skills Library</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>Kearney AI Commons</h1>
-            <p class="subtitle">Curated AI Prompts for Enterprise Excellence</p>
+            <h1>Kearney AI Skills Library</h1>
+            <p class="subtitle">Curated Prompts & Interactive Skills for Enterprise Excellence</p>
+            <nav class="header-nav">
+                <a href="{{ url_for('index') }}" class="nav-link">Library</a>
+                <a href="{{ url_for('guide') }}" class="nav-link">How to Use</a>
+            </nav>
         </div>
     </header>
 
@@ -21,7 +25,10 @@
 
         <article class="prompt-card prompt-detail">
             <div class="prompt-header">
-                <h2>{{ prompt.Title }}</h2>
+                <div class="title-row">
+                    <span class="type-badge type-{{ prompt.Type|default('prompt') }}">{{ prompt.Type|default('prompt')|upper }}</span>
+                    <h2>{{ prompt.Title }}</h2>
+                </div>
                 <span class="status-badge status-{{ prompt.Status|lower }}">{{ prompt.Status }}</span>
             </div>
 
@@ -31,19 +38,81 @@
                     <span class="meta-value">{{ prompt.UseCase }}</span>
                 </div>
                 <div class="meta-item">
-                    <span class="meta-label">Target Audience:</span>
+                    <span class="meta-label">Audience:</span>
                     <span class="meta-value">{{ prompt.TargetAudience }}</span>
                 </div>
                 <div class="meta-item">
                     <span class="meta-label">Version:</span>
                     <span class="meta-value">{{ prompt.Version }}</span>
                 </div>
+                {% if prompt.Type != 'skill' %}
                 <div class="meta-item">
-                    <span class="meta-label">Source File:</span>
+                    <span class="meta-label">Source:</span>
                     <span class="meta-value">{{ prompt.PromptContentFile }}</span>
                 </div>
+                {% endif %}
             </div>
 
+            {% if prompt.Description %}
+            <div class="item-description detail-description">
+                <p>{{ prompt.Description }}</p>
+            </div>
+            {% endif %}
+
+            {% if prompt.Type == 'skill' and prompt.SkillVersions %}
+            <!-- Platform Tabs for Skills -->
+            <div class="platform-tabs">
+                <div class="tab-buttons">
+                    {% for platform, content in prompt.SkillVersions.items() %}
+                    <button class="tab-btn {% if loop.first %}active{% endif %}"
+                            onclick="switchTab('{{ platform }}', this)"
+                            data-platform="{{ platform }}">
+                        {% if platform == 'claude-code' %}
+                        <span class="platform-icon">&#9679;</span> Claude Code
+                        {% elif platform == 'generic' %}
+                        <span class="platform-icon">&#9673;</span> Any LLM
+                        {% else %}
+                        {{ platform|title }}
+                        {% endif %}
+                    </button>
+                    {% endfor %}
+                </div>
+
+                {% for platform, content in prompt.SkillVersions.items() %}
+                <div class="tab-content {% if loop.first %}active{% endif %}" id="tab-{{ platform }}">
+                    <div class="prompt-content-wrapper">
+                        <div class="content-header">
+                            <span class="content-label">
+                                {% if platform == 'claude-code' %}
+                                Claude Code Skill (SKILL.md)
+                                {% elif platform == 'generic' %}
+                                Universal Prompt (Any LLM)
+                                {% else %}
+                                {{ platform|title }} Version
+                                {% endif %}
+                            </span>
+                            <button class="copy-btn" onclick="copyToClipboard('skill-content-{{ platform }}', this)">
+                                <span class="copy-icon">&#128203;</span> Copy to Clipboard
+                            </button>
+                        </div>
+                        <pre><code id="skill-content-{{ platform }}">{{ content }}</code></pre>
+                    </div>
+
+                    {% if platform == 'claude-code' %}
+                    <div class="usage-hint">
+                        <strong>How to use:</strong> Save this file as <code>~/.claude/skills/{{ prompt.Title|lower|replace(' ', '-') }}/SKILL.md</code> then run <code>/{{ prompt.Title|lower|replace(' ', '-') }}</code> in Claude Code.
+                    </div>
+                    {% elif platform == 'generic' %}
+                    <div class="usage-hint">
+                        <strong>How to use:</strong> Copy and paste this entire prompt into ChatGPT, Claude.ai, Gemini, or any other LLM. Follow the interview questions.
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            {% else %}
+            <!-- Standard Prompt Content -->
             <div class="prompt-content-wrapper">
                 <div class="content-header">
                     <span class="content-label">Prompt Content</span>
@@ -53,12 +122,13 @@
                 </div>
                 <pre><code id="prompt-content-{{ prompt.id }}">{{ prompt.PromptContent }}</code></pre>
             </div>
+            {% endif %}
         </article>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 Kearney AI Commons | Local Development Environment</p>
+            <p>&copy; 2025 Kearney AI Skills Library</p>
         </div>
     </footer>
 
