@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Kearney AI Commons - Prompt Validation Suite
+Kearney AI Skills - Prompt Validation Suite
 
 This script validates prompts by running standardized test queries against
 both Anthropic and OpenAI APIs, generating a comprehensive validation report.
@@ -313,7 +313,7 @@ def main():
     args = parser.parse_args()
 
     print("=" * 60)
-    print("Kearney AI Commons - Prompt Validation Suite")
+    print("Kearney AI Skills - Prompt Validation Suite")
     print("=" * 60)
     print(f"Timestamp: {datetime.now().isoformat()}")
     print(f"Prompts Directory: {PROMPTS_DIR}")
