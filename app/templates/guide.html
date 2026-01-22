@@ -7,302 +7,267 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Kearney AI Skills Library</h1>
-            <p class="subtitle">Curated Prompts and Interactive Skills for Enterprise Excellence</p>
+    <header class="site-header">
+        <div class="header-container">
+            <div class="header-left">
+                <a href="{{ url_for('index') }}" class="logo-link">
+                    <img src="{{ url_for('static', filename='kearney-logo.svg') }}" alt="Kearney" class="logo">
+                </a>
+                <div class="header-divider"></div>
+                <span class="site-title">AI Skills Library</span>
+            </div>
             <nav class="header-nav">
-                <a href="{{ url_for('index') }}" class="nav-link">Library</a>
-                <a href="{{ url_for('guide') }}" class="nav-link active">How to Use</a>
+                <a href="{{ url_for('index') }}" class="nav-btn">Library</a>
+                <a href="{{ url_for('guide') }}" class="nav-btn active">How to Use</a>
             </nav>
         </div>
     </header>
 
-    <main class="container guide-page">
-        <h2 class="page-title">Getting Started Guide</h2>
-        <p class="page-intro">Learn how to use prompts and skills from this library to enhance your AI-assisted work.</p>
+    <main class="main-content guide-page">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1 class="page-title">How to Use the AI Skills Library</h1>
+            <p class="page-subtitle">Learn how to navigate the library, understand the difference between prompts and skills, and get the most out of these AI tools in your consulting work.</p>
+        </section>
 
-        <!-- Quick Start Section -->
+        <!-- Prompts vs Skills Section -->
         <section class="guide-section">
-            <h3>What's the Difference?</h3>
-            <div class="comparison-cards">
+            <h2>Prompts vs Interactive Skills</h2>
+            <div class="comparison-grid">
+                <!-- Prompts Card -->
                 <div class="comparison-card">
-                    <div class="card-icon">
-                        <svg width="60" height="60" viewBox="0 0 60 60">
-                            <rect x="10" y="8" width="40" height="44" rx="4" fill="#E0D2FA" stroke="#7823DC" stroke-width="2"/>
-                            <line x1="18" y1="20" x2="42" y2="20" stroke="#7823DC" stroke-width="2"/>
-                            <line x1="18" y1="28" x2="38" y2="28" stroke="#7823DC" stroke-width="2"/>
-                            <line x1="18" y1="36" x2="42" y2="36" stroke="#7823DC" stroke-width="2"/>
-                            <line x1="18" y1="44" x2="32" y2="44" stroke="#7823DC" stroke-width="2"/>
+                    <div class="comparison-icon prompt">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 3l1.912 5.813h6.088l-4.912 3.587 1.824 5.6-4.912-3.587-4.912 3.587 1.824-5.6-4.912-3.587h6.088z"/>
                         </svg>
                     </div>
-                    <h4>Prompts</h4>
-                    <p>Static text templates you copy and paste into any AI chat. One-time use, works everywhere.</p>
+                    <span class="type-badge badge-prompt" style="margin-bottom: 1rem;">Prompt</span>
+                    <h3>Prompts</h3>
+                    <p>Ready-to-use text templates that you copy and paste into any LLM (ChatGPT, Claude, Gemini, etc.). Perfect for quick insights and one-off analyses.</p>
+                    <h4>Best for:</h4>
                     <ul>
-                        <li>Copy once, paste into AI</li>
-                        <li>Works with any LLM</li>
-                        <li>Great for quick tasks</li>
+                        <li><span>•</span><span>Quick strategic analysis</span></li>
+                        <li><span>•</span><span>One-time research queries</span></li>
+                        <li><span>•</span><span>Brainstorming sessions</span></li>
+                        <li><span>•</span><span>Report drafting assistance</span></li>
                     </ul>
                 </div>
+
+                <!-- Skills Card -->
                 <div class="comparison-card">
-                    <div class="card-icon">
-                        <svg width="60" height="60" viewBox="0 0 60 60">
-                            <circle cx="30" cy="20" r="12" fill="#E0D2FA" stroke="#7823DC" stroke-width="2"/>
-                            <path d="M20 40 Q30 35 40 40 Q40 52 30 55 Q20 52 20 40" fill="#E0D2FA" stroke="#7823DC" stroke-width="2"/>
-                            <circle cx="30" cy="20" r="4" fill="#7823DC"/>
-                            <line x1="30" y1="24" x2="30" y2="32" stroke="#7823DC" stroke-width="2"/>
+                    <div class="comparison-icon skill">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="16 18 22 12 16 6"/>
+                            <polyline points="8 6 2 12 8 18"/>
                         </svg>
                     </div>
-                    <h4>Skills</h4>
-                    <p>Interactive, multi-step workflows. The AI asks questions and builds something custom for you.</p>
+                    <span class="type-badge badge-skill" style="margin-bottom: 1rem;">Interactive Skill</span>
+                    <h3>Interactive Skills</h3>
+                    <p>Advanced tools with code implementations for Claude and templates for other LLMs. Designed for complex, repeatable workflows and data processing.</p>
+                    <h4>Best for:</h4>
                     <ul>
-                        <li>Interview-style interaction</li>
-                        <li>Generates custom outputs</li>
-                        <li>Reusable workflows</li>
+                        <li><span>•</span><span>Data analysis and visualization</span></li>
+                        <li><span>•</span><span>Automated report generation</span></li>
+                        <li><span>•</span><span>Complex multi-step workflows</span></li>
+                        <li><span>•</span><span>Repeatable processes</span></li>
                     </ul>
                 </div>
             </div>
         </section>
 
-        <!-- Using Prompts Section -->
+        <!-- Quick Start Guide -->
         <section class="guide-section">
-            <h3>Using Prompts (3 Simple Steps)</h3>
-            <div class="steps-diagram">
-                <div class="step">
+            <h2>Quick Start Guide</h2>
+
+            <!-- Step 1 -->
+            <div class="step-card">
+                <div class="step-card-content">
                     <div class="step-number">1</div>
-                    <div class="step-visual">
-                        <svg width="120" height="80" viewBox="0 0 120 80">
-                            <rect x="10" y="10" width="100" height="60" rx="8" fill="#F5F5F5" stroke="#7823DC" stroke-width="2"/>
-                            <rect x="20" y="20" width="60" height="8" rx="2" fill="#7823DC" opacity="0.3"/>
-                            <rect x="20" y="32" width="80" height="6" rx="2" fill="#7823DC" opacity="0.2"/>
-                            <rect x="20" y="42" width="70" height="6" rx="2" fill="#7823DC" opacity="0.2"/>
-                            <rect x="20" y="52" width="40" height="6" rx="2" fill="#7823DC" opacity="0.2"/>
-                        </svg>
+                    <div class="step-content">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="M21 21l-4.35-4.35"/>
+                            </svg>
+                            Search and Filter
+                        </h3>
+                        <p>Use the search bar to find prompts and skills by keyword. Filter by type (All, Prompts, Skills) to narrow down results. Browse by category, use case, or audience to find exactly what you need.</p>
                     </div>
-                    <h4>Find a Prompt</h4>
-                    <p>Browse the library and find a prompt that matches your task.</p>
                 </div>
-                <div class="step-arrow">&#8594;</div>
-                <div class="step">
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step-card">
+                <div class="step-card-content">
                     <div class="step-number">2</div>
-                    <div class="step-visual">
-                        <svg width="120" height="80" viewBox="0 0 120 80">
-                            <rect x="10" y="10" width="100" height="60" rx="8" fill="#7823DC" stroke="#7823DC" stroke-width="2"/>
-                            <text x="60" y="45" text-anchor="middle" fill="white" font-size="12" font-weight="bold">COPY</text>
-                            <rect x="70" y="25" width="30" height="30" rx="4" fill="white" opacity="0.2"/>
-                            <rect x="75" y="30" width="20" height="20" rx="2" fill="white" opacity="0.3"/>
-                        </svg>
+                    <div class="step-content">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                            View Details
+                        </h3>
+                        <p>Click on any card to see the full content. For prompts, you'll see the complete template. For skills, you'll see tabs for "Claude Code" (Python implementation) and "Any LLM" (universal template).</p>
                     </div>
-                    <h4>Click Copy</h4>
-                    <p>Click the Copy to Clipboard button to grab the prompt text.</p>
                 </div>
-                <div class="step-arrow">&#8594;</div>
-                <div class="step">
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step-card">
+                <div class="step-card-content">
                     <div class="step-number">3</div>
-                    <div class="step-visual">
-                        <svg width="120" height="80" viewBox="0 0 120 80">
-                            <rect x="10" y="10" width="100" height="60" rx="8" fill="#F5F5F5" stroke="#787878" stroke-width="2"/>
-                            <circle cx="30" cy="35" r="12" fill="#E0D2FA"/>
-                            <text x="30" y="40" text-anchor="middle" fill="#7823DC" font-size="14" font-weight="bold">AI</text>
-                            <rect x="50" y="25" width="50" height="6" rx="2" fill="#787878" opacity="0.3"/>
-                            <rect x="50" y="35" width="40" height="6" rx="2" fill="#787878" opacity="0.3"/>
-                            <rect x="50" y="45" width="45" height="6" rx="2" fill="#787878" opacity="0.3"/>
-                        </svg>
+                    <div class="step-content">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                            </svg>
+                            Copy and Customize
+                        </h3>
+                        <p>Click the "Copy" button to copy the content to your clipboard. Paste it into your preferred LLM or development environment. Customize the template with your specific context, data, and requirements before running.</p>
                     </div>
-                    <h4>Paste into AI</h4>
-                    <p>Paste into ChatGPT, Claude, Gemini, or any AI assistant.</p>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="step-card">
+                <div class="step-card-content">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                            </svg>
+                            Iterate and Refine
+                        </h3>
+                        <p>Review the initial results and refine your inputs as needed. Add more context, adjust parameters, or try different variations. The best results often come from iterating on the template based on your specific needs.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Using Skills Section -->
+        <!-- Best Practices -->
         <section class="guide-section">
-            <h3>Using Skills</h3>
-
-            <div class="skill-method">
-                <div class="method-header">
-                    <span class="method-badge generic">Any LLM</span>
-                    <h4>Method 1: Copy and Paste (Works Everywhere)</h4>
-                </div>
-                <div class="method-steps">
-                    <ol>
-                        <li>Find a skill and click View Details</li>
-                        <li>Select the <strong>Any LLM</strong> tab</li>
-                        <li>Copy the entire prompt</li>
-                        <li>Paste into your preferred AI (ChatGPT, Claude.ai, Gemini, etc.)</li>
-                        <li>Answer the interview questions the AI asks you</li>
-                        <li>Get your customized output</li>
-                    </ol>
-                </div>
-                <div class="method-visual">
-                    <svg width="100%" height="100" viewBox="0 0 600 100">
-                        <!-- Flow diagram -->
-                        <rect x="10" y="30" width="100" height="40" rx="8" fill="#F5F5F5" stroke="#787878" stroke-width="2"/>
-                        <text x="60" y="55" text-anchor="middle" fill="#1E1E1E" font-size="11">Copy Skill</text>
-
-                        <line x1="115" y1="50" x2="145" y2="50" stroke="#787878" stroke-width="2" marker-end="url(#arrowhead)"/>
-
-                        <rect x="150" y="30" width="100" height="40" rx="8" fill="#F5F5F5" stroke="#787878" stroke-width="2"/>
-                        <text x="200" y="55" text-anchor="middle" fill="#1E1E1E" font-size="11">Paste in AI</text>
-
-                        <line x1="255" y1="50" x2="285" y2="50" stroke="#787878" stroke-width="2"/>
-
-                        <rect x="290" y="30" width="100" height="40" rx="8" fill="#E0D2FA" stroke="#7823DC" stroke-width="2"/>
-                        <text x="340" y="55" text-anchor="middle" fill="#7823DC" font-size="11">AI Interviews</text>
-
-                        <line x1="395" y1="50" x2="425" y2="50" stroke="#7823DC" stroke-width="2"/>
-
-                        <rect x="430" y="30" width="100" height="40" rx="8" fill="#D2D2D2" stroke="#787878" stroke-width="2"/>
-                        <text x="480" y="55" text-anchor="middle" fill="#1E1E1E" font-size="11">Custom Output</text>
-
-                        <defs>
-                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                                <polygon points="0 0, 10 3.5, 0 7" fill="#787878"/>
-                            </marker>
-                        </defs>
-                    </svg>
-                </div>
-            </div>
-
-            <div class="skill-method">
-                <div class="method-header">
-                    <span class="method-badge claude-code">Claude Code</span>
-                    <h4>Method 2: Install as Slash Command (Power Users)</h4>
-                </div>
-                <div class="method-steps">
-                    <ol>
-                        <li>Find a skill and click View Details</li>
-                        <li>Select the <strong>Claude Code</strong> tab</li>
-                        <li>Copy the SKILL.md content</li>
-                        <li>Create the folder: <code>~/.claude/skills/[skill-name]/</code></li>
-                        <li>Save as <code>SKILL.md</code> in that folder</li>
-                        <li>In Claude Code, type <code>/[skill-name]</code> to run it</li>
-                    </ol>
-                </div>
-                <div class="terminal-example">
-                    <div class="terminal-header">
-                        <span class="terminal-dot red"></span>
-                        <span class="terminal-dot yellow"></span>
-                        <span class="terminal-dot green"></span>
-                        <span class="terminal-title">Terminal</span>
-                    </div>
-                    <div class="terminal-body">
-                        <code>
-<span class="prompt">$</span> mkdir -p ~/.claude/skills/setup-workflow
-<span class="prompt">$</span> # Paste the SKILL.md content into this file:
-<span class="prompt">$</span> nano ~/.claude/skills/setup-workflow/SKILL.md
-<span class="prompt">$</span> # Now in Claude Code, just type:
-<span class="prompt">$</span> /setup-workflow
-                        </code>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Tips Section -->
-        <section class="guide-section tips-section">
-            <h3>Pro Tips</h3>
-            <div class="tips-grid">
-                <div class="tip-card">
-                    <div class="tip-icon">
-                        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 18V5l12-2v13"/>
-                            <circle cx="6" cy="18" r="3"/>
-                            <circle cx="18" cy="16" r="3"/>
-                        </svg>
-                    </div>
-                    <h4>Start with Prompts</h4>
-                    <p>If you're new to AI, start with prompts. They're simpler and work immediately.</p>
-                </div>
-                <div class="tip-card">
-                    <div class="tip-icon">
-                        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 20h9"/>
-                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
-                        </svg>
-                    </div>
-                    <h4>Customize Outputs</h4>
-                    <p>After the AI generates something, ask follow-up questions to refine it.</p>
-                </div>
-                <div class="tip-card">
-                    <div class="tip-icon">
-                        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                        </svg>
-                    </div>
-                    <h4>Skills Save Time</h4>
-                    <p>For repeated tasks, skills are worth the setup. One install equals unlimited uses.</p>
-                </div>
-                <div class="tip-card">
-                    <div class="tip-icon">
-                        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                            <line x1="3" y1="9" x2="21" y2="9"/>
-                            <line x1="9" y1="21" x2="9" y2="9"/>
-                        </svg>
-                    </div>
-                    <h4>Combine Tools</h4>
-                    <p>Use a skill to generate a framework, then use prompts to fill in details.</p>
-                </div>
+            <h2>Best Practices</h2>
+            <div class="practices-card">
+                <ul class="practices-list">
+                    <li>
+                        <span>→</span>
+                        <span><strong>Be specific:</strong> The more context you provide, the better the results. Include industry details, company specifics, and relevant constraints.</span>
+                    </li>
+                    <li>
+                        <span>→</span>
+                        <span><strong>Test multiple LLMs:</strong> Different models have different strengths. Try the same prompt in ChatGPT and Claude to compare results.</span>
+                    </li>
+                    <li>
+                        <span>→</span>
+                        <span><strong>Start simple:</strong> Begin with prompts before moving to interactive skills. Build your confidence and understanding gradually.</span>
+                    </li>
+                    <li>
+                        <span>→</span>
+                        <span><strong>Document your modifications:</strong> Keep track of how you customize templates. This helps you build a personal library of proven approaches.</span>
+                    </li>
+                    <li>
+                        <span>→</span>
+                        <span><strong>Share feedback:</strong> Let the team know which prompts and skills work best. Your insights help improve the library for everyone.</span>
+                    </li>
+                </ul>
             </div>
         </section>
 
         <!-- FAQ Section -->
-        <section class="guide-section faq-section">
-            <h3>Frequently Asked Questions</h3>
-
-            <div class="faq-item">
-                <button class="faq-question" onclick="toggleFaq(this)">
-                    <span>Which AI should I use?</span>
-                    <span class="faq-toggle">+</span>
-                </button>
-                <div class="faq-answer">
-                    <p>All prompts and skills work with any modern AI: ChatGPT (GPT-4), Claude, Gemini, Copilot, etc. For best results with complex tasks, use GPT-4, Claude Opus, or Claude Sonnet.</p>
+        <section class="guide-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Which LLM should I use?</span>
+                        <span class="faq-toggle">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>All prompts in this library work with any major LLM (ChatGPT, Claude, Gemini, etc.). For interactive skills, we provide specific Claude Code implementations, but also include universal templates you can use with any LLM. Claude excels at analytical tasks and code generation, while ChatGPT is great for creative writing and brainstorming.</p>
+                    </div>
                 </div>
-            </div>
 
-            <div class="faq-item">
-                <button class="faq-question" onclick="toggleFaq(this)">
-                    <span>Do I need Claude Code for skills?</span>
-                    <span class="faq-toggle">+</span>
-                </button>
-                <div class="faq-answer">
-                    <p>No. Every skill has an Any LLM version you can copy-paste into any AI chat. Claude Code is optional for power users who want slash commands.</p>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Do I need coding skills for Interactive Skills?</span>
+                        <span class="faq-toggle">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Not necessarily. Every interactive skill includes both a code implementation (for developers) and a universal template (for non-developers). If you're not comfortable with Python, use the "Any LLM" tab to access the template version that works just like a prompt.</p>
+                    </div>
                 </div>
-            </div>
 
-            <div class="faq-item">
-                <button class="faq-question" onclick="toggleFaq(this)">
-                    <span>Can I modify prompts and skills?</span>
-                    <span class="faq-toggle">+</span>
-                </button>
-                <div class="faq-answer">
-                    <p>Absolutely. These are templates. Feel free to customize them for your specific needs. You can add context, change the tone, or modify instructions.</p>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Can I modify the prompts and skills?</span>
+                        <span class="faq-toggle">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Absolutely! These are templates designed to be customized. Add your industry context, specific metrics, preferred output formats, and any other details relevant to your project. The best results come from tailoring templates to your exact needs.</p>
+                    </div>
                 </div>
-            </div>
 
-            <div class="faq-item">
-                <button class="faq-question" onclick="toggleFaq(this)">
-                    <span>How do I request a new skill?</span>
-                    <span class="faq-toggle">+</span>
-                </button>
-                <div class="faq-answer">
-                    <p>Contact the AI Skills team or submit a request through your usual channels. We're always looking for ideas that help Kearney consultants work smarter.</p>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>How do I request a new prompt or skill?</span>
+                        <span class="faq-toggle">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We're continuously expanding the library based on consultant needs. Contact the AI Skills team with your request, including the use case, target audience, and desired outcomes. We'll work with you to develop and test the new template.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Are there any usage guidelines or restrictions?</span>
+                        <span class="faq-toggle">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Always follow Kearney's data security and client confidentiality policies. Don't input sensitive client data into public LLMs. For sensitive work, use approved enterprise LLM instances with proper data controls. When in doubt, consult with your project lead or the data security team.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>What if I get poor results from a prompt?</span>
+                        <span class="faq-toggle">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Try these troubleshooting steps: (1) Add more specific context and details, (2) Simplify complex requests into multiple smaller prompts, (3) Try a different LLM, (4) Review the examples in the "Tips for Best Results" section, (5) Reach out to colleagues who have used similar prompts successfully.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- CTA Section -->
-        <section class="guide-cta">
-            <h3>Ready to Get Started?</h3>
-            <p>Browse the library and find your first prompt or skill.</p>
-            <a href="{{ url_for('index') }}" class="cta-button">Explore the Library</a>
+        <!-- Support Section -->
+        <section class="guide-section">
+            <div class="support-card">
+                <h3>Need Help?</h3>
+                <p>If you have questions not covered in this guide or need assistance with a specific prompt or skill, our team is here to help.</p>
+                <div class="support-links">
+                    <a href="#">Contact Support</a>
+                    <span>•</span>
+                    <a href="#">Join Slack Channel</a>
+                    <span>•</span>
+                    <a href="#">View Tutorials</a>
+                </div>
+            </div>
         </section>
     </main>
 
-    <footer>
-        <div class="container">
-            <p>Kearney AI Skills Library</p>
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-copyright">
+                © {{ now.year if now else '2025' }} Kearney. All rights reserved.
+            </div>
+            <div class="footer-links">
+                <a href="#">Support</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Use</a>
+            </div>
         </div>
     </footer>
 

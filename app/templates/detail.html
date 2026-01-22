@@ -7,141 +7,183 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Kearney AI Skills Library</h1>
-            <p class="subtitle">Curated Prompts and Interactive Skills for Enterprise Excellence</p>
+    <header class="site-header">
+        <div class="header-container">
+            <div class="header-left">
+                <a href="{{ url_for('index') }}" class="logo-link">
+                    <img src="{{ url_for('static', filename='kearney-logo.svg') }}" alt="Kearney" class="logo">
+                </a>
+                <div class="header-divider"></div>
+                <span class="site-title">AI Skills Library</span>
+            </div>
             <nav class="header-nav">
-                <a href="{{ url_for('index') }}" class="nav-link">Library</a>
-                <a href="{{ url_for('guide') }}" class="nav-link">How to Use</a>
+                <a href="{{ url_for('index') }}" class="nav-btn">Library</a>
+                <a href="{{ url_for('guide') }}" class="nav-btn">How to Use</a>
             </nav>
         </div>
     </header>
 
-    <main class="container">
-        <nav class="breadcrumb">
-            <a href="{{ url_for('index') }}">
-                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px; vertical-align: middle; margin-right: 4px;">
-                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+    <main class="main-content detail-page">
+        <!-- Back Button -->
+        <a href="{{ url_for('index') }}" class="btn-ghost back-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Back to Library
+        </a>
+
+        <!-- Header Section -->
+        <div class="detail-header">
+            <span class="type-badge {% if prompt.Type == 'skill' %}badge-skill{% else %}badge-prompt{% endif %}">
+                {% if prompt.Type == 'skill' %}
+                <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="16 18 22 12 16 6"/>
+                    <polyline points="8 6 2 12 8 18"/>
                 </svg>
-                Back to Library
-            </a>
-        </nav>
-
-        <article class="prompt-card prompt-detail">
-            <div class="prompt-header">
-                <div class="title-row">
-                    <span class="type-badge type-{{ prompt.Type|default('prompt') }}">{{ prompt.Type|default('prompt')|upper }}</span>
-                    <h2>{{ prompt.Title }}</h2>
-                </div>
-                <span class="category-badge">{{ prompt.Category }}</span>
-            </div>
-
-            <div class="prompt-meta">
-                <div class="meta-item">
-                    <span class="meta-label">Use Case:</span>
-                    <span class="meta-value">{{ prompt.UseCase }}</span>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Audience:</span>
-                    <span class="meta-value">{{ prompt.TargetAudience }}</span>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">Version:</span>
-                    <span class="meta-value">{{ prompt.Version }}</span>
-                </div>
-            </div>
-
-            {% if prompt.WhenToUse %}
-            <div class="item-description">
-                <p><strong>When to use:</strong> {{ prompt.WhenToUse }}</p>
-            </div>
-            {% endif %}
-
+                Interactive Skill
+                {% else %}
+                <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 3l1.912 5.813h6.088l-4.912 3.587 1.824 5.6-4.912-3.587-4.912 3.587 1.824-5.6-4.912-3.587h6.088z"/>
+                </svg>
+                Prompt
+                {% endif %}
+            </span>
+            <h1 class="detail-title">{{ prompt.Title }}</h1>
             {% if prompt.Description %}
-            <div class="item-description">
-                <p>{{ prompt.Description }}</p>
-            </div>
+            <p class="detail-description">{{ prompt.Description }}</p>
             {% endif %}
+        </div>
 
-            {% if prompt.Type == 'skill' and prompt.SkillVersions %}
-            <!-- Platform Tabs for Skills -->
-            <div class="platform-tabs">
-                <div class="tab-buttons">
-                    {% for platform, content in prompt.SkillVersions.items() %}
-                    <button class="tab-btn {% if loop.first %}active{% endif %}"
-                            onclick="switchTab('{{ platform }}', this)"
-                            data-platform="{{ platform }}">
-                        {% if platform == 'claude-code' %}
-                        Claude Code
-                        {% elif platform == 'generic' %}
-                        Any LLM
-                        {% else %}
-                        {{ platform|title }}
-                        {% endif %}
-                    </button>
-                    {% endfor %}
-                </div>
-
-                {% for platform, content in prompt.SkillVersions.items() %}
-                <div class="tab-content {% if loop.first %}active{% endif %}" id="tab-{{ platform }}">
-                    <div class="prompt-content-wrapper">
-                        <div class="content-header">
-                            <span class="content-label">
-                                {% if platform == 'claude-code' %}
-                                Claude Code Skill
-                                {% elif platform == 'generic' %}
-                                Universal Prompt
-                                {% else %}
-                                {{ platform|title }} Version
-                                {% endif %}
-                            </span>
-                            <button class="copy-btn" onclick="copyToClipboard('skill-content-{{ platform }}', this)">
-                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
-                                </svg>
-                                Copy to Clipboard
-                            </button>
-                        </div>
-                        <pre><code id="skill-content-{{ platform }}">{{ content }}</code></pre>
-                    </div>
-
-                    {% if platform == 'claude-code' %}
-                    <div class="usage-hint">
-                        <strong>How to use:</strong> Save this file as <code>~/.claude/skills/{{ prompt.Title|lower|replace(' ', '-') }}/SKILL.md</code> then run <code>/{{ prompt.Title|lower|replace(' ', '-') }}</code> in Claude Code.
-                    </div>
-                    {% elif platform == 'generic' %}
-                    <div class="usage-hint">
-                        <strong>How to use:</strong> Copy and paste this entire prompt into ChatGPT, Claude.ai, Gemini, or any other LLM. Follow the interview questions.
-                    </div>
-                    {% endif %}
-                </div>
-                {% endfor %}
+        <!-- Metadata Cards -->
+        <div class="metadata-grid">
+            <div class="metadata-card">
+                <h4>Category</h4>
+                <p>{{ prompt.Category }}</p>
             </div>
+            <div class="metadata-card">
+                <h4>Use Case</h4>
+                <p>{{ prompt.UseCase }}</p>
+            </div>
+            <div class="metadata-card">
+                <h4>Audience</h4>
+                <p>{{ prompt.TargetAudience }}</p>
+            </div>
+        </div>
 
-            {% else %}
-            <!-- Standard Prompt Content -->
-            <div class="prompt-content-wrapper">
+        <!-- Content Card -->
+        <div class="content-card">
+            {% if prompt.Type == 'skill' and prompt.SkillVersions %}
+            <!-- Skills have tabs for different platforms -->
+            <div class="tabs-container">
                 <div class="content-header">
-                    <span class="content-label">Prompt Content</span>
-                    <button class="copy-btn" onclick="copyToClipboard('prompt-content-{{ prompt.id }}', this)">
+                    <div class="tab-list">
+                        {% for platform, content in prompt.SkillVersions.items() %}
+                        <button class="tab-btn {% if loop.first %}active{% endif %}"
+                                onclick="switchTab('{{ platform }}', this)"
+                                data-platform="{{ platform }}">
+                            {% if platform == 'claude-code' %}
+                            Claude Code
+                            {% elif platform == 'generic' %}
+                            Any LLM
+                            {% else %}
+                            {{ platform|title }}
+                            {% endif %}
+                        </button>
+                        {% endfor %}
+                    </div>
+                    <button class="btn-primary copy-btn" onclick="copyActiveTab(this)">
                         <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
                             <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
                         </svg>
-                        Copy to Clipboard
+                        Copy All
                     </button>
                 </div>
+            </div>
+
+            {% for platform, content in prompt.SkillVersions.items() %}
+            <div class="tab-content {% if loop.first %}active{% endif %}" id="tab-{{ platform }}">
+                <div class="tab-header" style="margin-bottom: 1rem;">
+                    <h3>
+                        {% if platform == 'claude-code' %}
+                        Claude Code Implementation
+                        {% elif platform == 'generic' %}
+                        Universal LLM Template
+                        {% else %}
+                        {{ platform|title }} Version
+                        {% endif %}
+                    </h3>
+                    <p class="tab-description" style="font-size: 0.875rem; color: var(--muted-foreground); margin-top: 0.25rem;">
+                        {% if platform == 'claude-code' %}
+                        Use this code with Claude's API for automated analysis and processing.
+                        {% elif platform == 'generic' %}
+                        Use this template with ChatGPT, Claude, Gemini, or any other LLM.
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="code-block">
+                    <pre><code id="skill-content-{{ platform }}">{{ content }}</code></pre>
+                </div>
+            </div>
+            {% endfor %}
+
+            {% else %}
+            <!-- Prompts just show the content directly -->
+            <div class="content-header">
+                <div>
+                    <h3>Prompt Template</h3>
+                    <p style="font-size: 0.875rem; color: var(--muted-foreground); margin-top: 0.25rem;">
+                        Copy this prompt and paste it into your preferred LLM.
+                    </p>
+                </div>
+                <button class="btn-primary copy-btn" onclick="copyToClipboard('prompt-content-{{ prompt.id }}', this)">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                    </svg>
+                    Copy Prompt
+                </button>
+            </div>
+            <div class="code-block">
                 <pre><code id="prompt-content-{{ prompt.id }}">{{ prompt.PromptContent }}</code></pre>
             </div>
             {% endif %}
-        </article>
+        </div>
+
+        <!-- Tips Card -->
+        <div class="tips-card">
+            <h3>Tips for Best Results</h3>
+            <ul class="tips-list">
+                <li>
+                    <span>•</span>
+                    <span>Customize the template with your specific context and requirements</span>
+                </li>
+                <li>
+                    <span>•</span>
+                    <span>Include relevant data points and metrics for more accurate analysis</span>
+                </li>
+                <li>
+                    <span>•</span>
+                    <span>Iterate on the results - refine your inputs based on initial outputs</span>
+                </li>
+                <li>
+                    <span>•</span>
+                    <span>Test with different LLMs to compare results and find the best fit</span>
+                </li>
+            </ul>
+        </div>
     </main>
 
-    <footer>
-        <div class="container">
-            <p>Kearney AI Skills Library</p>
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-copyright">
+                © {{ now.year if now else '2025' }} Kearney. All rights reserved.
+            </div>
+            <div class="footer-links">
+                <a href="#">Support</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Use</a>
+            </div>
         </div>
     </footer>
 

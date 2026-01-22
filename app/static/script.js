@@ -120,8 +120,10 @@ function setFilter(filter, button) {
 function filterItems() {
     const searchInput = document.getElementById('search-input');
     const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
-    const items = document.querySelectorAll('.prompt-card');
+    // Support both old class (prompt-card) and new class (skill-card)
+    const items = document.querySelectorAll('.prompt-card, .skill-card');
     const noResults = document.getElementById('no-results');
+    const itemsList = document.getElementById('items-list');
     let visibleCount = 0;
 
     items.forEach(item => {
@@ -139,16 +141,59 @@ function filterItems() {
 
         // Show or hide
         if (matchesFilter && matchesSearch) {
-            item.style.display = 'block';
+            item.style.display = '';
             visibleCount++;
         } else {
             item.style.display = 'none';
         }
     });
 
+    // Update results count
+    const visibleCountSpan = document.getElementById('visible-count');
+    if (visibleCountSpan) {
+        visibleCountSpan.textContent = visibleCount;
+    }
+
     // Show/hide no results message
     if (noResults) {
         noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    // Hide the grid if no results
+    if (itemsList) {
+        itemsList.style.display = visibleCount === 0 ? 'none' : '';
+    }
+}
+
+/**
+ * Clear the search input and reset filters.
+ */
+function clearSearch() {
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        searchInput.value = '';
+    }
+    currentFilter = 'all';
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.filter === 'all') {
+            btn.classList.add('active');
+        }
+    });
+    filterItems();
+}
+
+/**
+ * Copy the content of the currently active tab.
+ * @param {HTMLElement} button - The button element.
+ */
+function copyActiveTab(button) {
+    const activeTab = document.querySelector('.tab-content.active');
+    if (activeTab) {
+        const codeElement = activeTab.querySelector('code');
+        if (codeElement) {
+            copyToClipboard(codeElement.id, button);
+        }
     }
 }
 
@@ -200,12 +245,12 @@ function toggleFaq(button) {
  */
 document.addEventListener('DOMContentLoaded', function() {
     // Add keyboard shortcut (Ctrl/Cmd + C on focused code blocks)
-    document.querySelectorAll('.prompt-content-wrapper').forEach(wrapper => {
+    document.querySelectorAll('.prompt-content-wrapper, .code-block').forEach(wrapper => {
         wrapper.addEventListener('keydown', function(e) {
             if ((e.ctrlKey || e.metaKey) && e.key === 'c' && window.getSelection().toString() === '') {
                 // If Ctrl+C pressed with no text selected, copy the whole block
                 const codeBlock = wrapper.querySelector('code');
-                const button = wrapper.querySelector('.copy-btn');
+                const button = document.querySelector('.copy-btn');
                 if (codeBlock && button) {
                     copyToClipboard(codeBlock.id, button);
                 }
@@ -222,5 +267,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 filterItems();
             }
         });
+    }
+
+    // Initialize the results count on page load
+    const items = document.querySelectorAll('.prompt-card, .skill-card');
+    const visibleCountSpan = document.getElementById('visible-count');
+    if (visibleCountSpan && items.length > 0) {
+        visibleCountSpan.textContent = items.length;
     }
 });

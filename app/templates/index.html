@@ -7,21 +7,36 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Kearney AI Skills Library</h1>
-            <p class="subtitle">Curated Prompts and Interactive Skills for Enterprise Excellence</p>
+    <header class="site-header">
+        <div class="header-container">
+            <div class="header-left">
+                <a href="{{ url_for('index') }}" class="logo-link">
+                    <img src="{{ url_for('static', filename='kearney-logo.svg') }}" alt="Kearney" class="logo">
+                </a>
+                <div class="header-divider"></div>
+                <span class="site-title">AI Skills Library</span>
+            </div>
             <nav class="header-nav">
-                <a href="{{ url_for('index') }}" class="nav-link active">Library</a>
-                <a href="{{ url_for('guide') }}" class="nav-link">How to Use</a>
+                <a href="{{ url_for('index') }}" class="nav-btn active">Library</a>
+                <a href="{{ url_for('guide') }}" class="nav-btn">How to Use</a>
             </nav>
         </div>
     </header>
 
-    <main class="container">
-        <!-- Filter Bar -->
-        <section class="filter-bar">
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1 class="page-title">AI Skills Library</h1>
+            <p class="page-subtitle">A curated collection of AI prompts and interactive skills designed for Kearney consultants. Browse, filter, and copy templates to enhance your workflow with ChatGPT, Claude, and other LLMs.</p>
+        </section>
+
+        <!-- Search and Filter -->
+        <section class="search-filter">
             <div class="search-box">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="M21 21l-4.35-4.35"/>
+                </svg>
                 <input type="text" id="search-input" placeholder="Search prompts and skills..." onkeyup="filterItems()">
             </div>
             <div class="filter-buttons">
@@ -31,58 +46,71 @@
             </div>
         </section>
 
-        <section class="prompts-list" id="items-list">
-            {% for item in prompts %}
-            <article class="prompt-card" data-type="{{ item.Type|default('prompt') }}" data-title="{{ item.Title|lower }}" data-usecase="{{ item.UseCase|lower }}">
-                <div class="prompt-header">
-                    <div class="title-row">
-                        <span class="type-badge type-{{ item.Type|default('prompt') }}">{{ item.Type|default('prompt')|upper }}</span>
-                        <h2><a href="{{ url_for('prompt_detail', prompt_id=item.id) }}">{{ item.Title }}</a></h2>
-                    </div>
-                    <span class="category-badge">{{ item.Category }}</span>
-                </div>
+        <!-- Results Count -->
+        <div class="results-header">
+            <p class="results-count" id="results-count">Showing <span id="visible-count">0</span> results</p>
+        </div>
 
-                <div class="prompt-meta">
-                    <div class="meta-item">
-                        <span class="meta-label">Use Case:</span>
-                        <span class="meta-value">{{ item.UseCase }}</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-label">Audience:</span>
-                        <span class="meta-value">{{ item.TargetAudience }}</span>
-                    </div>
-                    {% if item.Type == 'skill' and item.Platforms %}
-                    <div class="meta-item">
-                        <span class="meta-label">Platforms:</span>
-                        <span class="meta-value platform-tags">
-                            {% for platform in item.Platforms %}
-                            <span class="platform-tag">{{ platform }}</span>
-                            {% endfor %}
+        <!-- Skills Grid -->
+        <section class="skills-grid" id="items-list">
+            {% for item in prompts %}
+            <article class="skill-card" data-type="{{ item.Type|default('prompt') }}" data-title="{{ item.Title|lower }}" data-usecase="{{ item.UseCase|lower }}">
+                <div class="card-content" onclick="window.location='{{ url_for('prompt_detail', prompt_id=item.id) }}'">
+                    <!-- Type Badge -->
+                    <div class="badge-row">
+                        <span class="type-badge {% if item.Type == 'skill' %}badge-skill{% else %}badge-prompt{% endif %}">
+                            {% if item.Type == 'skill' %}
+                            <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="16 18 22 12 16 6"/>
+                                <polyline points="8 6 2 12 8 18"/>
+                            </svg>
+                            Interactive Skill
+                            {% else %}
+                            <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 3l1.912 5.813h6.088l-4.912 3.587 1.824 5.6-4.912-3.587-4.912 3.587 1.824-5.6-4.912-3.587h6.088z"/>
+                            </svg>
+                            Prompt
+                            {% endif %}
                         </span>
                     </div>
+
+                    <!-- Title -->
+                    <h3 class="card-title">{{ item.Title }}</h3>
+
+                    <!-- Metadata -->
+                    <div class="card-meta">
+                        <span><strong>Category:</strong> {{ item.Category }}</span>
+                        <span class="meta-divider">•</span>
+                        <span><strong>Audience:</strong> {{ item.TargetAudience }}</span>
+                    </div>
+
+                    <!-- Use Case -->
+                    <div class="card-usecase">
+                        <span class="usecase-label">Use Case:</span>
+                        <p>{{ item.UseCase }}</p>
+                    </div>
+
+                    <!-- Description -->
+                    {% if item.Description %}
+                    <p class="card-description">{{ item.Description }}</p>
                     {% endif %}
                 </div>
 
-                {% if item.Description %}
-                <div class="item-description">
-                    <p>{{ item.Description }}</p>
-                </div>
-                {% endif %}
-
+                <!-- Action Buttons -->
                 <div class="card-actions">
                     <a href="{{ url_for('prompt_detail', prompt_id=item.id) }}" class="btn-primary">
                         <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+                            <polyline points="15 3 21 3 21 9"/>
+                            <line x1="10" y1="14" x2="21" y2="3"/>
                         </svg>
                         View Details
                     </a>
-                    <button class="btn-secondary" onclick="copyToClipboard('prompt-content-{{ item.id }}', this)">
-                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <button class="btn-icon-only" onclick="event.stopPropagation(); copyToClipboard('prompt-content-{{ item.id }}', this)" title="Quick Copy">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
                             <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
                         </svg>
-                        Quick Copy
                     </button>
                 </div>
 
@@ -101,13 +129,21 @@
         {% endif %}
 
         <section class="no-results" id="no-results" style="display: none;">
-            <p>No items match your search criteria.</p>
+            <p>No skills found matching your criteria.</p>
+            <button class="btn-outline" onclick="clearSearch()">Clear Search</button>
         </section>
     </main>
 
-    <footer>
-        <div class="container">
-            <p>Kearney AI Skills Library</p>
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-copyright">
+                © {{ now.year if now else '2025' }} Kearney. All rights reserved.
+            </div>
+            <div class="footer-links">
+                <a href="#">Support</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Use</a>
+            </div>
         </div>
     </footer>
 
